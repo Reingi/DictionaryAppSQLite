@@ -47,12 +47,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public long InsertData(String word, String meaning, SQLiteDatabase db){
-           long id;
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(Word,word);
-            contentValues.put(Meaning,meaning);
-            id = db.insert(tblWord, null,contentValues);
-           return id;
+        long id;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Word,word);
+        contentValues.put(Meaning,meaning);
+        id = db.insert(tblWord, null,contentValues);
+        return id;
     }
 
     public List<Word> GetAllWords(SQLiteDatabase db){
@@ -64,5 +64,25 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         return dictionaryList;
+    }
+
+    public Word getMeaning(int id){
+
+        Word meaning = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "select * from tblWord where wordId = " + id;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Integer wordId = cursor.getInt(cursor.getColumnIndexOrThrow("wordId"));
+                String word = cursor.getString(cursor.getColumnIndexOrThrow("word"));
+                String mean = cursor.getString(cursor.getColumnIndexOrThrow("meaning"));
+                meaning = new Word(wordId,word,mean);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return meaning;
     }
 }

@@ -36,18 +36,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnAddWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long id = helper.InsertData(etWord.getText().toString(),etMeaning.getText().toString(),sqLiteDatabase);
-                if(id>0){
-                    Toast.makeText(MainActivity.this,"Successful"+id,Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(MainActivity.this,"Error"+id,Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            btnAddWord.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(etWord.getText().toString().isEmpty() && etMeaning.getText().toString().isEmpty()){
+                        etWord.setError( "Field must not be empty!!" );
+                        etMeaning.setError( "Field must not be empty!!" );
+                    }else{
+                        long id = helper.InsertData(etWord.getText().toString(),etMeaning.getText().toString(),sqLiteDatabase);
+                        if(id>0){
+                            Toast.makeText(MainActivity.this,"Successful"+id,Toast.LENGTH_SHORT).show();
+                            etWord.getText().clear();
+                            etMeaning.getText().clear();
+                        }else{
+                            Toast.makeText(MainActivity.this,"Error"+id,Toast.LENGTH_SHORT).show();
+                        }
 
+                    }
+
+                }
+            });
 
     }
 }
