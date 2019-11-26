@@ -14,7 +14,7 @@ import models.Word;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String databaseName = "DictionaryDB.db";
+    private static final String databaseName = "DictionaryDB";
     private static final int dbVersion = 1;
 
     //tblWord Field
